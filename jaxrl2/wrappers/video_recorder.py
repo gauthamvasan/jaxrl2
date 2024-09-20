@@ -1,6 +1,6 @@
 import os
 
-import gym
+import gymnasium as gym
 import imageio
 import numpy as np
 

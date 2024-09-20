@@ -40,10 +40,10 @@ setup(
     ],
     keywords="reinforcement, machine, learning, research",
     packages=find_packages(),
-    install_requires=install_requires,
-    test_requires=test_requires,
-    extras_require={
-        "test": test_requires,
-    },
+    # install_requires=install_requires,
+    # test_requires=test_requires,
+    # extras_require={
+    #     "test": test_requires,
+    # },
     license="MIT",
 )

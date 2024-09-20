@@ -1,5 +1,5 @@
-import gym.spaces as spaces
-from gym import ActionWrapper
+import gymnasium.spaces as spaces
+from gymnasium import ActionWrapper
 
 
 class FlattenAction(ActionWrapper):

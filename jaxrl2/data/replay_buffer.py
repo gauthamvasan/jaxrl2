@@ -1,7 +1,7 @@
 from typing import Optional, Union
 
-import gym
-import gym.spaces
+import gymnasium as gym
+import gymnasium.spaces
 import numpy as np
 
 from jaxrl2.data.dataset import Dataset, DatasetDict
@@ -29,6 +29,8 @@ def _insert_recursively(
     elif isinstance(dataset_dict, dict):
         assert dataset_dict.keys() == data_dict.keys()
         for k in dataset_dict.keys():
+            # print(k, "-"*50)
+            # print(dataset_dict[k].shape, data_dict[k])
             _insert_recursively(dataset_dict[k], data_dict[k], insert_index)
     else:
         raise TypeError()
