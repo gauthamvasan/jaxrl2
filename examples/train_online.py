@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 import gymnasium as gym
-# import gym
+import time
 import tqdm, os, pickle
 import numpy as np
 
@@ -17,14 +17,14 @@ print(xla_bridge.get_backend().platform)
 
 FLAGS = flags.FLAGS
 
-flags.DEFINE_string("env_name", "HalfCheetah-v2", "Environment name.")
+flags.DEFINE_string("env_name", "HalfCheetah-v4", "Environment name.")
 flags.DEFINE_string("save_dir", "./tmp/", "Tensorboard logging dir.")
 flags.DEFINE_integer("seed", 42, "Random seed.")
 flags.DEFINE_integer("eval_episodes", 10, "Number of episodes used for evaluation.")
 flags.DEFINE_integer("log_interval", 1000, "Logging interval.")
 flags.DEFINE_integer("eval_interval", 5000, "Eval interval.")
 flags.DEFINE_integer("batch_size", 256, "Mini batch size.")
-flags.DEFINE_integer("max_steps", int(1e7), "Number of training steps.")
+flags.DEFINE_integer("max_steps", 10002000, "Number of training steps.")
 flags.DEFINE_integer("replay_buffer_size", int(1e6), "Number of training steps.")
 flags.DEFINE_integer(
     "start_training", int(1e4), "Number of training steps to start training."
@@ -35,7 +35,7 @@ flags.DEFINE_string("results_dir", "./results", "Save returns.")
 flags.DEFINE_boolean("save_video", False, "Save videos during evaluation.")
 config_flags.DEFINE_config_file(
     "config",
-    "configs/sac_default.py",
+    "/home/vasan/scratch/jaxrl2/examples/configs/sac_default.py",
     "File path to the training hyperparameter configuration.",
     lock_config=False,
 )
@@ -123,6 +123,7 @@ def main(_):
         #     for k, v in eval_info.items():
         #         wandb.log({f"evaluation/{k}": v}, step=i)
 
+    save_pkl(rets, ep_steps, FLAGS, pkl_fpath)
     print(f"Seed {FLAGS.seed} ended with mean return {np.mean(rets)} in {sum(ep_steps)} steps.")
 
 
@@ -143,5 +144,9 @@ def save_pkl(rets, ep_steps, args, pkl_fpath):
     with open(pkl_fpath, "wb") as handle:
         pickle.dump(pkl_data, handle)
 
+    print(f"Saved to {pkl_fpath}")
+
 if __name__ == "__main__":
+    tic = time.time()
     app.run(main)
+    print("Time taken: {:.3f}".format(time.time()-tic))
